@@ -11,8 +11,8 @@ A fun command-line penalty shootout game featuring all 48 teams from the FIFA Wo
 
 ## Installation
 
-### Install from PyPI
-    pip install fifa-penalty-shootout-2026
+### Install from Test PyPI
+    pip install -i https://test.pypi.org/simple/ fifa-penalty-shootout-2026
 
 ## Run the game:
 fifa-shootout (or)
