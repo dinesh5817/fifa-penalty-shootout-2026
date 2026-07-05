@@ -4,19 +4,25 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fifa-penalty-shootout-2026"
-version = "0.1.3"
-description = "Penalty shootout game based on FIFA World Cup 2026"
+version = "0.1.0"
+description = "A fun penalty shootout CLI game based on FIFA World Cup 2026"
+readme = "README.md"
 requires-python = ">=3.8"
-keywords = ["World Cup", "world cup", "fifa", "FIFA"]
+license = {text = "MIT"}
+authors = [
+    {name = "Dinesh Krishnan Gnanasubramanian", email = "dineshk262809@gmail.com"}
+]
+keywords = ["fifa", "world cup", "penalty", "shootout", "game", "cli", "football"]
 classifiers = [
-  "Programming Language :: Python :: 3",
-  "Operating System :: OS Independent"
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Games/Entertainment :: Simulation"
 ]
 dependencies = []
 
 [project.scripts]
 fifa-shootout = "world_cup:main"
-fifa = "world_cup:main"
 
 [tool.setuptools]
 py-modules = [
@@ -28,3 +34,8 @@ py-modules = [
     "tournament_mode",
     "team_data"
 ]
+
+[[tool.uv.index]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
