@@ -32,5 +32,11 @@ py-modules = [
     "team_selection",
     "opponent_selection",
     "tournament_mode",
-    "team_data"
+    "team_data",
+    "groupstage",
+    "knockouts",
+    "qualification",
+    "game_sim",
+    "standings",
+    "groups"
 ]

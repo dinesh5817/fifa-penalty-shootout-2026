@@ -3,8 +3,6 @@ from tournament_mode import tournament
 
 
 def match_type_query():
-    """Ask the user whether to play a quick match or a tournament."""
-
     while True:
         choice = input(
             "\nMatch Type\n"

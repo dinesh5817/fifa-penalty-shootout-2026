@@ -2,23 +2,31 @@ import random
 import time
 
 from team_data import teams
-from opponent_selection import choose_opponent
+from groups import get_team_ranking
 from team_selection import choose_user_team
+from opponent_selection import choose_opponent
 
 
-def shootout():
-    """Run a simple penalty shootout game."""
+def get_penalty_success_probability(attacker_rank, keeper_rank):
+    rating_diff = attacker_rank - keeper_rank
+    prob = 0.58 + (rating_diff / 1600)
+    return max(0.45, min(0.90, prob))
+
+
+def shootout(user_team=None, opp_team=None):
+    """Run a probability-based penalty shootout game."""
+
+    # === Handle Quick Match Mode ===
+    if user_team is None or opp_team is None:
+        print("\n===== QUICK MATCH SHOOTOUT =====")
+        user_team = choose_user_team()
+        opp_team = choose_opponent(user_team)
 
     print("\n===== SHOOTOUT =====")
-
-    user_team = choose_user_team()
-    opp_team = choose_opponent(user_team)
     time.sleep(1)
 
     print("Here are the two teams for the penalty shootout!")
     print(f"It's the penalty shootout in a tense match between {user_team} and {opp_team}!")
-    print()
-    print("Who is gonna win at this stage? This is the million dollar question here in MetLife Stadium!")
 
     user_attackers = teams[user_team]["attackers"]
     user_keeper = teams[user_team]["goalkeeper"]
@@ -29,19 +37,16 @@ def shootout():
     print(f"{opp_keeper} is the goalkeeper for {opp_team}.")
     print(f"{user_keeper} is the goalkeeper for {user_team}.")
 
-    print("\nBest of 5 penalties.")
-    print("You shoot first every round.\n")
+    print("\nBest of 5 penalties.\n")
 
     directions = ["L", "C", "R"]
     user_goals = 0
     opp_goals = 0
 
-    time.sleep(1)
-
     for round_num in range(5):
         print(f"\n========== ROUND {round_num + 1} ==========")
 
-        # === USER SHOOTS ===
+        # USER SHOOTS
         shooter = user_attackers[round_num]
         print(f"\n⚽ {shooter} steps up to take the penalty!")
 
@@ -51,40 +56,28 @@ def shootout():
                 break
             print("❌ Invalid direction. Please choose L, C, or R.")
 
-        # AI decides dive direction (FIXED)
-        ai_dive = random.choice(directions)
+        attacker_rank = get_team_ranking(user_team)
+        keeper_rank = get_team_ranking(opp_team)
+        score_prob = get_penalty_success_probability(attacker_rank, keeper_rank)
 
-        if ai_dive == "C":
-            ai_dive_label = "CENTER"
-        elif ai_dive == "L":
-            ai_dive_label = "LEFT"
-        else:
-            ai_dive_label = "RIGHT"
-
-        print(f"{opp_keeper} dives {ai_dive_label}...")
+        print(f"{opp_keeper} dives...")
         time.sleep(0.8)
 
-        if ai_dive_label == user_shot:
+        if random.random() < score_prob:
+            print("🥅 GOOOOAAALLL!!")
+            print(f"🥅 {shooter} SCORES!")
+            if shooter == "Cristiano Ronaldo":
+                print("SIIUUUUUU! Whoa!")
+            user_goals += 1
+        else:
             print("🧤 SAVED!")
             time.sleep(1.5)
             print(f"{opp_keeper} saves the penalty from {shooter}!")
-        else:
-            print("🥅 GOOOOAAALLL!!")
-            print(f"🥅 {shooter} SCORES!")
-            if user_goals == 0:
-                print(f"It's the first goal for {user_team} scored by {shooter}!")
-            else:
-                print(f"It's another goal for {user_team}!")
-
-            if shooter == "Cristiano Ronaldo":
-                print("SIIUUUUUU! Whoa!")
-
-            user_goals += 1
 
         print(f"\nScore: {user_team} {user_goals} - {opp_goals} {opp_team}")
-        time.sleep(3)
+        time.sleep(2)
 
-        # === OPPONENT SHOOTS ===
+        # OPPONENT SHOOTS
         ai_shooter = opp_attackers[round_num]
         print(f"\n⚽ {ai_shooter} is taking the penalty!")
 
@@ -94,52 +87,56 @@ def shootout():
                 break
             print("❌ Invalid direction. Please choose L, C, or R.")
 
-        ai_shot = random.choice(directions)
-        print(f"{ai_shooter} shoots {ai_shot}...")
+        attacker_rank = get_team_ranking(opp_team)
+        keeper_rank = get_team_ranking(user_team)
+        opp_score_prob = get_penalty_success_probability(attacker_rank, keeper_rank)
+
+        print(f"{ai_shooter} shoots...")
         time.sleep(0.8)
 
-        if ai_shot == user_dive:
+        if random.random() < opp_score_prob:
+            print(f"🥅 {ai_shooter} SCORES!")
+            if ai_shooter == "Cristiano Ronaldo":
+                print("SIIUUUUUU! Whoa!")
+            opp_goals += 1
+        else:
             print("🧤 SAVED!")
             time.sleep(1.5)
             print(f"{user_keeper} saves the penalty from {ai_shooter}!")
-        else:
-            print(f"🥅 {ai_shooter} SCORES!")
-            if opp_goals == 0:
-                print(f"It's the first goal for {opp_team} scored by {ai_shooter}!")
-            else:
-                print(f"It's another goal for {opp_team}!")
-
-            if ai_shooter == "Cristiano Ronaldo":
-                print("SIIUUUUUU! Whoa!")
-
-            opp_goals += 1
 
         print(f"\nScore: {user_team} {user_goals} - {opp_goals} {opp_team}")
         time.sleep(2)
 
-    # === FINAL RESULT ===
+    # FINAL RESULT
     time.sleep(2)
     print("\n" + "="*42)
     print("🏆 PENALTY SHOOTOUT OVER 🏆")
     print("="*42)
-
     print(f"\nFinal Score: {user_team} {user_goals} - {opp_goals} {opp_team}")
 
     if user_goals > opp_goals:
         print(f"\n🎉 {user_team} wins the shootout!")
     elif opp_goals > user_goals:
         print(f"\n🏆 {opp_team} wins the shootout!")
-        if (opp_goals - user_goals) == 1:
-            print("The match was tight until the very end!")
     else:
-        print("\n🤝 It's a draw! Sudden death can be added later.")
+        print("\n🤝 It's a draw!")
 
-    # === Special Ronaldo vs Messi Ending ===
-    if {user_team, opp_team} == {"Argentina", "Portugal"}:
-        if (user_team == "Argentina" and user_goals > opp_goals) or \
-           (user_team == "Portugal" and opp_goals > user_goals):
-            print("\nUnbelievable! Lionel Messi's Argentina beats Cristiano Ronaldo's Portugal in a classic clash.")
-        else:
-            print("\nWhat a match! Cristiano Ronaldo is SIUUU-ing in the USA. A game nobody will forget!")
+    if user_goals > opp_goals:
+        winner = user_team
+        loser = opp_team
+        draw = False
+    elif opp_goals > user_goals:
+        winner = opp_team
+        loser = user_team
+        draw = False
+    else:
+        winner = None
+        loser = None
+        draw = True
 
-    print("\nThanks for playing!")
+    return {
+        "winner": winner,
+        "loser": loser,
+        "draw": draw,
+        "goal_difference": abs(user_goals - opp_goals)
+    }
