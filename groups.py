@@ -1,6 +1,6 @@
 """
 groups.py
-FIFA World Cup 2026 Groups with Real FIFA Ranking Points
+FIFA World Cup 2026 - Actual Groups (Official Draw)
 """
 
 groups = {
@@ -60,15 +60,15 @@ groups = {
     },
     'J': {
         'Argentina': 1886,
-        'Dr Congo': 1485,
         'Austria': 1535,
-        'Jordan': 1320
+        'Jordan': 1320,
+        'Algeria': 1510
     },
     'K': {
         'Portugal': 1740,
         'Colombia': 1610,
         'Uzbekistan': 1295,
-        'Zimbabwe': 1190
+        'Dr Congo': 1485
     },
     'L': {
         'England': 1805,
