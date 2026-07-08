@@ -517,6 +517,17 @@ teams = {
         "goalkeeper": "Utkir Yusupov"
     },
 
+    "Algeria": {
+        "attackers": [
+            "Riyad Mahrez",
+            "Amine Gouiri",
+            "Mohamed Amoura",
+            "Houssem Aouar",
+            "Saïd Benrahma"
+        ],
+        "goalkeeper": "Anthony Mandrea"
+    },
+
     "Zimbabwe": {
         "attackers": [
             "Knowledge Musona",
