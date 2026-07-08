@@ -43,27 +43,27 @@ def update_standings(result, home=None, away=None):
         standings[loser]["gd"] -= result["goal_difference"]
 
 def print_standings():
-    """Print standings in a clean, well-spaced table format"""
-    print("\n" + "="*90)
+    print("\n" + "=" * 90)
     print(f"{'Team':<28} {'Pld':>5} {'W':>4} {'D':>4} {'L':>4} {'GD':>6} {'Pts':>5}")
-    print("="*90)
-    
-    # Sort by Points (highest first), then by Goal Difference
+    print("=" * 90)
+
     sorted_teams = sorted(
         standings.items(),
-        key=lambda x: (x[1]['points'], x[1]['gd']),
+        key=lambda x: (x[1]["points"], x[1]["gd"]),
         reverse=True
     )
 
-    return sorted_teams  # Return the sorted standings
-    
     for team, stats in sorted_teams:
-        print(f"{team:<28} "
-              f"{stats['played']:>5} "
-              f"{stats['won']:>4} "
-              f"{stats['drawn']:>4} "
-              f"{stats['lost']:>4} "
-              f"{stats['gd']:>6} "
-              f"{stats['points']:>5}")
-    
-    print("="*90)
+        print(
+            f"{team:<28}"
+            f"{stats['played']:>5}"
+            f"{stats['won']:>4}"
+            f"{stats['drawn']:>4}"
+            f"{stats['lost']:>4}"
+            f"{stats['gd']:>6}"
+            f"{stats['points']:>5}"
+        )
+
+    print("=" * 90)
+
+    return sorted_teams

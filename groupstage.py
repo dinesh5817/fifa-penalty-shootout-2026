@@ -55,6 +55,7 @@ def play_group_stage(user_team):
     # Get qualified teams
     top_32 = qualified_teams(sorted_teams)
     print("\n✅ Top 32 teams qualified for Round of 32:")
-    print(top_32)
-
+    print()
+    for team in top_32:
+        print(f"→ {team}")
     return top_32
