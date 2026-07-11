@@ -69,6 +69,8 @@ def shootout(user_team=None, opp_team=None):
             if shooter == "Cristiano Ronaldo":
                 print("SIIUUUUUU! Whoa!")
             user_goals += 1
+            if shooter == "Lionel Messi":
+                print("ANKAARA MESSI! ANKARA MESSI! ANKRA MESSI ANKRA MESSIII! GOL GOL GOL!")
         else:
             print("🧤 SAVED!")
             time.sleep(1.5)
