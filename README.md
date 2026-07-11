@@ -31,10 +31,7 @@ Start playing instantly by typing either command in your terminal:
 ```bash
 fifa-shootout
 ```
-*(or)*
-```bash
-fifa
-```
+
 
 ---
 
